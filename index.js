@@ -57,7 +57,7 @@ io.on('connection',(socket)=>{
         // console.log(data)
         pidusage(process.pid, function (err, stats) {
             var cpu=stats.cpu;
-            let Memoria=stats.memory;
+            let Memoria=stats.memory/1000000;
             io.sockets.emit('ejemplo',{CPU:cpu,Memoria:Memoria});
             })
     })

@@ -3,8 +3,9 @@ const socket = io();
 
 let CPU = "";
 let Memoria = '';
-
-socket.emit('ejemplo');
+setInterval(()=>{
+    socket.emit('ejemplo');
+},8000)
 
 socket.on('ejemplo',(data)=>{
     document.getElementById('CPU').innerHTML="CPU: "+data.CPU+"%";
