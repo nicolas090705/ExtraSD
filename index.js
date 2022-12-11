@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+
+const OS = require('os')
 app.set('port',process.env.PORT || 3000);
 
 app.set('view engine','ejs');
@@ -45,6 +47,7 @@ const server = app.listen(app.get('port'),()=>{
 
 /****************************************************************************/
 const SocketIO = require('socket.io');
+const { consumers } = require('stream');
 // SocketIO.listen(server)
 const io = SocketIO(server);
 // var cpu='';
@@ -53,12 +56,31 @@ const io = SocketIO(server);
 io.on('connection',(socket)=>{
     console.log('new connection',socket.id);
 
-    socket.on('ejemplo',()=>{        
+    socket.on('ejemplo',()=>{       
+        let cpus = OS.cpus();
+        let sistema = OS.platform(); 
+        let name = OS.hostname();
+        let arch = OS.arch();
+        let endianness = OS.endianness()
+        let freemem = OS.freemem()
+        let homedir = OS.homedir()
+        let totalmem = OS.totalmem()
+        // var machine = OS.machine()
+
+        // console.log(totalmem)
+        // console.log(machine)
+        // console.log(endianness)// LE/BE
+        // console.log(freemem/10000000,"MB");
+        // console.log(homedir)//C:\Users\nic01
+        // console.log(sistema);
+        // console.log(name);
+        // console.log(arch)
+        // io.sockets.emit('obtenciondeOS',{cpus:cpus, sistema:sistema, name:name, arch:arch})
         // console.log(data)
         pidusage(process.pid, function (err, stats) {
             var cpu=stats.cpu;
             let Memoria=stats.memory/1000000;
-            io.sockets.emit('ejemplo',{CPU:cpu,Memoria:Memoria});
+            io.sockets.emit('obtenciondeOS',{CPU:cpu,Memoria:Memoria,cpus:cpus, sistema:sistema, name:name, arch:arch});
             })
     })
 });
