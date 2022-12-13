@@ -5,7 +5,7 @@ let CPU = "";
 let Memoria = '';
 setInterval(()=>{
     socket.emit('ejemplo');
-},1000)
+},700)
 
 socket.on('obtenciondeOS',(data)=>{
     document.getElementById('model').innerHTML="Model: "+data.cpus[0].model;
