@@ -29,16 +29,27 @@ let pidusage = require('pidusage');
 // }, 20000);
 
 /****************************************************************************/
+app.get('/OS',(req,res)=>{
+    let cpus = OS.cpus();
+    let sistema = OS.platform(); 
+    let name = OS.hostname();
+    let arch = OS.arch();
+    let endianness = OS.endianness()
+    let freemem = OS.freemem()
+    let homedir = OS.homedir()
+    let totalmem = OS.totalmem()
 
+    res.render('OS',{cpus:cpus,sistema:sistema,name:name})
+});
 
 
 // app.get('/',(req,res)=>{
 //     res.render('index');
 // })
 
-// app.get('/CPU',(req,res)=>{
-//     res.render('CPU');
-// })
+app.get('/CPU',(req,res)=>{
+    res.render('CPU');
+})
 
 const server = app.listen(app.get('port'),()=>{
     console.log('http://localhost:3000')
@@ -52,6 +63,8 @@ const { consumers } = require('stream');
 const io = SocketIO(server);
 // var cpu='';
 // var Memoria='';
+
+
 
 io.on('connection',(socket)=>{
     console.log('new connection',socket.id);
